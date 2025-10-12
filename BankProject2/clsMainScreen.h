@@ -88,6 +88,9 @@ private:
 	static void _Logout()
 	{
 		CurrentUser = clsUser::Find("", "");
+
+		//clsLoginScreen::ShowLoginScreen();
+		//It will not work because will make circle refrecne 
 		//then it will go back to main function.
 	}
 
