@@ -113,5 +113,8 @@
     <ClInclude Include="clsFindUserScreen.h">
       <Filter>Header Files\clsManageUsersProgram</Filter>
     </ClInclude>
+    <ClInclude Include="clsRegisterLogins.h">
+      <Filter>Header Files\LogIn</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

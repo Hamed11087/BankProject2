@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "clsDate.h"
+#include <cstdlib>
 
 using namespace std;
 
@@ -280,7 +281,33 @@ public:
 
     }
 
+    static void SendEmail( string subject , string body ,string receiver  )
+    {
 
+        string sender = "hamad11087@gmail.com";
+        string appPassword = "irka ejvp iwsn yqgt"; // not your normal password
+        /* string  receiver = "hamad09435@gmail.com";
+        subject = "Hello from C++";
+        body = "This email was sent using PowerShell and C++!";*/
+        
 
+        std::string command =
+            "powershell -Command \"Send-MailMessage -From '" + sender +
+            "' -To '" + receiver +
+            "' -Subject '" + subject +
+            "' -Body '" + body +
+            "' -SmtpServer 'smtp.gmail.com' -Port 587 "
+            "-UseSsl -Credential (New-Object System.Management.Automation.PSCredential('" + sender +
+            "', (ConvertTo-SecureString '" + appPassword + "' -AsPlainText -Force)))\"";
+
+        int result = system(command.c_str());
+
+        //if (result == 0)
+        //    std::cout << "Email sent successfully!" << std::endl;
+        //else
+        //    std::cout << "Failed to send email." << std::endl;
+
+        
+    }
 };
 

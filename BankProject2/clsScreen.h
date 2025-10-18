@@ -27,6 +27,7 @@ protected:
 		cout << "\t\t\t\t\tUser: " << CurrentUser.UserName << endl; 
 		cout << "\t\t\t\t\tDate: " << clsDate::DateToString(clsDate()) << "\n\n";
 
+
 	}
 
 	static bool CheckAccessRights(clsUser::enPermissions Permission)

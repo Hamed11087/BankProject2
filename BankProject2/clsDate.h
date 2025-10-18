@@ -4,7 +4,7 @@
 #include<iostream>
 #include<string>
 #include "clsString.h"
-
+#include <ctime>
 using namespace std;
 
 class clsDate
@@ -103,6 +103,42 @@ public:
 		Day = now->tm_mday;
 
 		return clsDate(Day, Month, Year);
+	}
+
+	static string GetSystemDateTimeString()
+	{
+		//system datetime string 
+		time_t t = time(0);
+		tm* now = localtime(&t);
+
+		short Day, Month, Year, Hour, Minute, Second; 
+	
+
+		Year = now->tm_year + 1900;
+		Month = now->tm_mon + 1;
+		Day = now->tm_mday;
+		Hour = now->tm_hour;
+		Minute = now->tm_min;
+		Second = now->tm_sec;
+
+		return (to_string(Day) + "/" + to_string(Month) + "/"
+			+ to_string(Year) + " - "
+			+ to_string(Hour) + ":" + to_string(Minute)
+			+ ":" + to_string(Second));
+
+	}
+
+	static string GetSystemTime()
+	{
+		//system time string 
+		time_t now = time(0);
+		tm *localTime = localtime(&now); 
+
+		int hour = localTime->tm_hour; 
+		int minute = localTime->tm_min;
+		int second = localTime->tm_sec;
+
+		return (to_string(hour) + ":" + to_string(minute) + ":" + to_string(second));
 	}
 
 	static	bool IsValidDate(clsDate Date)

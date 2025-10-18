@@ -4,7 +4,9 @@
 #include "clsPerson.h"
 #include"clsString.h"
 #include <vector>
+#include "clsDate.h"
 #include <fstream>
+
 using namespace std; 
 
 class clsUser : public clsPerson
@@ -18,6 +20,18 @@ private:
 	int _Permissions;
 
 	bool _MarkedForDelete = false;
+
+	string _PrepareLogInRecord(string Seperator = "#//#")
+	{
+
+		string RegisterRecord = "";
+		RegisterRecord += clsDate::GetSystemDateTimeString() + Seperator; 
+		RegisterRecord += UserName + Seperator;
+		RegisterRecord += Password + Seperator;
+		RegisterRecord += to_string(Permissions);
+
+		return RegisterRecord;
+	}
 
 	static clsUser _ConvertLineToUserObject(string Line, string Seperator = "#//#")
 	{
@@ -333,6 +347,24 @@ public:
 			return true;
 		else
 			return false; 
+	}
+
+	void RegisterLogIn()
+	{
+		string stDateLine = _PrepareLogInRecord();
+
+		fstream MyFile;
+		MyFile.open("LoginRegister.txt", ios::out | ios::app);
+
+
+		if (MyFile.is_open())
+		{
+			MyFile << stDateLine << endl;
+			MyFile.close();
+
+		}
+
+		
 	}
 
 };
