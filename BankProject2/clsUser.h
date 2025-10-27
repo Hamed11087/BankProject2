@@ -21,6 +21,22 @@ private:
 
 	bool _MarkedForDelete = false;
 
+	struct stLoginRegisterRecord;
+
+	static stLoginRegisterRecord _ConverLoginRegiterLineToRecord(string Line, string Seperator = "#//#")
+	{
+		stLoginRegisterRecord LoginRegisterRecord; 
+
+		vector<string> LoginRegisterDataLine = clsString::Split(Line, Seperator); 
+		LoginRegisterRecord.DateTime = LoginRegisterDataLine[0]; 
+		LoginRegisterRecord.UserName = LoginRegisterDataLine[1]; 
+		LoginRegisterRecord.Password = LoginRegisterDataLine[2]; 
+		LoginRegisterRecord.Permissions = stoi(LoginRegisterDataLine[3]);
+
+		return LoginRegisterRecord; 
+		
+	}
+
 	string _PrepareLogInRecord(string Seperator = "#//#")
 	{
 
@@ -32,6 +48,38 @@ private:
 
 		return RegisterRecord;
 	}
+
+	//static vector<string> _ConvertLineToRegisterRecord(string Line, string Seperator = "#//#")
+	//{
+	//	vector<string>vRegiterRecord; 
+	//	vRegiterRecord = clsString::Split(Line, Seperator);
+
+	//	return vRegiterRecord; 
+	//}
+
+	//static vector<vector<string>> _LoadRegiterRecordFromFile()
+	//{
+	//	vector<vector<string>> vRegiterRecord;
+
+	//	fstream MyFile;
+	//	MyFile.open("LoginRegister.txt", ios::in); //read Mode 
+
+	//	if (MyFile.is_open())
+	//	{
+	//		string Line;
+
+	//		while (getline(MyFile, Line))
+	//		{
+	//			vector<string> RegiterRecord = _ConvertLineToRegisterRecord(Line); 
+
+	//			vRegiterRecord.push_back(RegiterRecord);
+	//		}
+	//		MyFile.close();
+	//	}
+
+	//	return vRegiterRecord;
+	//}
+
 
 	static clsUser _ConvertLineToUserObject(string Line, string Seperator = "#//#")
 	{
@@ -145,7 +193,15 @@ public:
 
 	enum enPermissions {
 		eAll = -1, pListClients = 1, pAddNewClient = 2, pDeleteClient = 4,
-		pUpdateClients = 8, pFindClient = 16, pTranactions = 32, pManageUsers = 64
+		pUpdateClients = 8, pFindClient = 16, pTranactions = 32, pManageUsers = 64 , pRegisterLogin = 128
+	};
+
+	struct stLoginRegisterRecord
+	{
+		string DateTime; 
+		string UserName; 
+		string Password; 
+		int Permissions; 
 	};
 
 	clsUser(enMode Mode, string FirstName, string LastName, string Email, string Phone, string UserName, string Password, int Permissions)
@@ -365,6 +421,32 @@ public:
 		}
 
 		
+	}
+
+	static vector<stLoginRegisterRecord> GetRegisterLogInList()
+	{
+		vector<stLoginRegisterRecord>vLoginRegisterRecord; 
+
+		fstream MyFile; 
+		MyFile.open("LoginRegister.txt", ios::in);
+
+		if (MyFile.is_open())
+		{
+			string Line; 
+
+			stLoginRegisterRecord LoginRegisterRecord;
+			 
+			while (getline(MyFile, Line))
+			{
+				LoginRegisterRecord = _ConverLoginRegiterLineToRecord(Line);
+
+				vLoginRegisterRecord.push_back(LoginRegisterRecord);
+			}
+
+			MyFile.close();
+		}
+
+		return vLoginRegisterRecord;
 	}
 
 };

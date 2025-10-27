@@ -9,45 +9,61 @@
 
 using namespace std; 
 
-class clsRegisterLogins 
+class clsRegisterLogins : clsScreen
 {
+private:
 
-	//static clsRegisterLogins _ConvertLineToRegisterLogins(string Line, string Seperator = "#//#")
-	//{
-	//	vector<string> vRegisterLogins; 
-	//	vRegisterLogins = clsString::Split(Line, Seperator);
-
-	//	
-	//}
-
-	static string _ConverRegisterLoginsToLine(clsUser User , string Sperator = "#//#")
+	static void _PrintRegiterRecordLine(clsUser::stLoginRegisterRecord LoginRegisterRecord)
 	{
-		string RegisterRecord = "";
-		RegisterRecord += clsDate::DateToString(clsDate()) + " - " + clsDate::GetSystemTime() +  Sperator;
-		RegisterRecord += CurrentUser.UserName + Sperator;
-		RegisterRecord += CurrentUser.Password + Sperator;
-		RegisterRecord += to_string(CurrentUser.Permissions); 
-		
-		return RegisterRecord; 
+		cout << setw(8) << left << "" << "| " << setw(35) << left << LoginRegisterRecord.DateTime;
+		cout << "| " << setw(20) << left << LoginRegisterRecord.UserName;
+		cout << "| " << setw(20) << left << LoginRegisterRecord.Password;
+		cout << "| " << setw(10) << left << LoginRegisterRecord.Permissions;
+
 	}
 
+
+
+
 public:
-	static void _SaveUsersRegisterLoginsToFile(clsUser vUserRegister)
+
+	static void ShowRegiterList()
 	{
-		fstream MyFile; 
-		MyFile.open("LoginRegister.txt", ios::out | ios::app); 
 
-		string DateLine; 
-
-		if (MyFile.is_open())
+		if (!CheckAccessRights(clsUser::enPermissions::pRegisterLogin))
 		{
-			
-			
-			DateLine = _ConverRegisterLoginsToLine(vUserRegister);
-			MyFile << DateLine << endl; 
+			return;
 		}
 
-		MyFile.close();
+		vector<clsUser::stLoginRegisterRecord> vLoginRegisterRecord = clsUser::GetRegisterLogInList();
+
+		string Title = "\t  Login Register List Screen";
+		string SubTitle = "\t    (" + to_string(vLoginRegisterRecord.size()) + ") Record(s).";
+
+		_DrawScreenHeader(Title, SubTitle);
+
+		cout << setw(8) << left << "" << "\n\t_______________________________________________________";
+		cout << "_________________________________________\n" << endl;
+
+		cout << setw(8) << left << "" << "| " << left << setw(35) << "Date/Time";
+		cout << "| " << left << setw(20) << "UserName";
+		cout << "| " << left << setw(20) << "Password";
+		cout << "| " << left << setw(10) << "Permissions";
+		cout << setw(8) << left << "" << "\n\t_______________________________________________________";
+		cout << "_________________________________________\n" << endl;
+
+		if (vLoginRegisterRecord.size() == 0)
+			cout << "\t\t\t\tNo Logins Available In the System!";
+		else
+
+			for (clsUser::stLoginRegisterRecord Record : vLoginRegisterRecord)
+			{
+				_PrintRegiterRecordLine(Record);
+				cout << endl;
+			}
+
+		cout << setw(8) << left << "" << "\n\t_______________________________________________________";
+		cout << "______________________________________________\n" << endl;
 	}
 
 

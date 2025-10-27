@@ -1,6 +1,6 @@
 #include <iostream>
 #include "clsLoginScreen.h"
-
+#include "clsRegisterLogins.h"
 int main()
 {
 
