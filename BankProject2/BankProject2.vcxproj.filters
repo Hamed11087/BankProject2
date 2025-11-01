@@ -116,5 +116,8 @@
     <ClInclude Include="clsRegisterLogins.h">
       <Filter>Header Files\LogIn</Filter>
     </ClInclude>
+    <ClInclude Include="clsTransferScreen.h">
+      <Filter>Header Files\TransactionsProgram</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
